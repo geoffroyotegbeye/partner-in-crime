@@ -204,13 +204,13 @@ class ProfileHeaderWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     CustomIconWidget(
-                      iconName: 'coin',
+                      iconName: 'coin', // TODO: Créer une icône MotiCoin
                       color: Colors.white,
                       size: 24,
                     ),
                     SizedBox(height: 0.5.h),
                     Text(
-                      '${userProfile['totalCoins']}',
+                      '${userProfile['totalMotiCoins']}',
                       style: GoogleFonts.inter(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
@@ -218,7 +218,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Total Coins',
+                      'Total MotiCoins',
                       style: GoogleFonts.inter(
                         fontSize: 10.sp,
                         color: Colors.white.withAlpha(230),

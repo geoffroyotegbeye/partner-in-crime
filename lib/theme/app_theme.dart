@@ -16,7 +16,7 @@ class AppTheme {
       Color(0xFF10B981); // Fresh mint green for success
   static const Color secondaryDark =
       Color(0xFF34D399); // Lighter mint for dark mode
-  static const Color accentLight = Color(0xFFF59E0B); // Golden yellow for coins
+  static const Color accentLight = Color(0xFFF59E0B); // Golden yellow for MotiCoins
   static const Color accentDark =
       Color(0xFFFBBF24); // Lighter gold for dark mode
 
@@ -91,7 +91,7 @@ class AppTheme {
           scrolledUnderElevation: 2,
           shadowColor: shadowLight,
           surfaceTintColor: Colors.transparent,
-          titleTextStyle: GoogleFonts.inter(
+          titleTextStyle: GoogleFonts.montserrat(
               fontSize: 18,
               fontWeight: FontWeight.w600,
               color: textPrimaryLight),
@@ -99,7 +99,7 @@ class AppTheme {
           actionsIconTheme: IconThemeData(color: textPrimaryLight)),
 
       // Card theme with adaptive elevation
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
           color: cardLight,
           elevation: 2,
           shadowColor: shadowLight,
@@ -206,7 +206,7 @@ class AppTheme {
       progressIndicatorTheme: ProgressIndicatorThemeData(color: primaryLight, linearTrackColor: primaryLight.withValues(alpha: 0.2), circularTrackColor: primaryLight.withValues(alpha: 0.2)),
 
       // Tab bar theme for navigation
-      tabBarTheme: TabBarTheme(labelColor: primaryLight, unselectedLabelColor: textSecondaryLight, indicatorColor: primaryLight, indicatorSize: TabBarIndicatorSize.label, labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600), unselectedLabelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400)),
+      tabBarTheme: TabBarThemeData(labelColor: primaryLight, unselectedLabelColor: textSecondaryLight, indicatorColor: primaryLight, indicatorSize: TabBarIndicatorSize.label, labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600), unselectedLabelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400)),
 
       // Snackbar theme for feedback
       snackBarTheme: SnackBarThemeData(backgroundColor: textPrimaryLight, contentTextStyle: GoogleFonts.inter(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400), actionTextColor: accentLight, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 6),
@@ -263,7 +263,7 @@ class AppTheme {
           actionsIconTheme: IconThemeData(color: textPrimaryDark)),
 
       // Card theme for dark mode
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
           color: cardDark,
           elevation: 2,
           shadowColor: shadowDark,
@@ -370,85 +370,86 @@ class AppTheme {
       progressIndicatorTheme: ProgressIndicatorThemeData(color: primaryDark, linearTrackColor: primaryDark.withValues(alpha: 0.2), circularTrackColor: primaryDark.withValues(alpha: 0.2)),
 
       // Tab bar theme for dark mode
-      tabBarTheme: TabBarTheme(labelColor: primaryDark, unselectedLabelColor: textSecondaryDark, indicatorColor: primaryDark, indicatorSize: TabBarIndicatorSize.label, labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600), unselectedLabelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400)),
+      tabBarTheme: TabBarThemeData(labelColor: primaryDark, unselectedLabelColor: textSecondaryDark, indicatorColor: primaryDark, indicatorSize: TabBarIndicatorSize.label, labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600), unselectedLabelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400)),
 
       // Snackbar theme for dark mode
 
       // Bottom sheet theme for dark mode
       bottomSheetTheme: BottomSheetThemeData(backgroundColor: surfaceDark, elevation: 8, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))), clipBehavior: Clip.antiAliasWithSaveLayer), dialogTheme: DialogThemeData(backgroundColor: surfaceDark));
 
-  /// Helper method to build text theme using Inter font family
-  /// Optimized for mobile readability with proper hierarchy
+  /// Helper method to build text theme using Montserrat + Nunito font combination
+  /// Montserrat for headings and Nunito for body text
+  /// Optimized for mobile readability with proper hierarchy and modern feel
   static TextTheme _buildTextTheme({required bool isLight}) {
     final Color textPrimary = isLight ? textPrimaryLight : textPrimaryDark;
     final Color textSecondary =
         isLight ? textSecondaryLight : textSecondaryDark;
 
     return TextTheme(
-        // Display styles for large headings
-        displayLarge: GoogleFonts.inter(
+        // Display styles for large headings - Using Montserrat for bold, modern look
+        displayLarge: GoogleFonts.montserrat(
             fontSize: 57,
             fontWeight: FontWeight.w700,
             color: textPrimary,
             letterSpacing: -0.25),
-        displayMedium: GoogleFonts.inter(
+        displayMedium: GoogleFonts.montserrat(
             fontSize: 45, fontWeight: FontWeight.w700, color: textPrimary),
-        displaySmall: GoogleFonts.inter(
+        displaySmall: GoogleFonts.montserrat(
             fontSize: 36, fontWeight: FontWeight.w600, color: textPrimary),
 
-        // Headline styles for section headers
-        headlineLarge: GoogleFonts.inter(
+        // Headline styles for section headers - Using Montserrat for consistency
+        headlineLarge: GoogleFonts.montserrat(
             fontSize: 32, fontWeight: FontWeight.w600, color: textPrimary),
-        headlineMedium: GoogleFonts.inter(
+        headlineMedium: GoogleFonts.montserrat(
             fontSize: 28, fontWeight: FontWeight.w600, color: textPrimary),
-        headlineSmall: GoogleFonts.inter(
+        headlineSmall: GoogleFonts.montserrat(
             fontSize: 24, fontWeight: FontWeight.w600, color: textPrimary),
 
-        // Title styles for cards and components
-        titleLarge: GoogleFonts.inter(
+        // Title styles for cards and components - Using Montserrat for titles
+        titleLarge: GoogleFonts.montserrat(
             fontSize: 22, fontWeight: FontWeight.w500, color: textPrimary),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: GoogleFonts.montserrat(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: textPrimary,
             letterSpacing: 0.15),
-        titleSmall: GoogleFonts.inter(
+        titleSmall: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: textPrimary,
             letterSpacing: 0.1),
 
-        // Body text for main content
-        bodyLarge: GoogleFonts.inter(
+        // Body text for main content - Using Nunito for readability and friendly feel
+        bodyLarge: GoogleFonts.nunito(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: textPrimary,
             letterSpacing: 0.5),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: GoogleFonts.nunito(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: textPrimary,
             letterSpacing: 0.25),
-        bodySmall: GoogleFonts.inter(
+        bodySmall: GoogleFonts.nunito(
             fontSize: 12,
             fontWeight: FontWeight.w400,
             color: textSecondary,
             letterSpacing: 0.4),
 
-        // Label styles for buttons and captions
-        labelLarge: GoogleFonts.inter(
+        // Label styles for buttons and captions - Using Nunito for interactive elements
+        labelLarge: GoogleFonts.nunito(
             fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600, // Slightly bolder for buttons
             color: textPrimary,
             letterSpacing: 0.1),
-        labelMedium: GoogleFonts.inter(
+        labelMedium: GoogleFonts.nunito(
             fontSize: 12,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: textPrimary,
             letterSpacing: 0.5),
-        labelSmall: GoogleFonts.inter(
+        labelSmall: GoogleFonts.nunito(
             fontSize: 11,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: textSecondary,
             letterSpacing: 0.5));
   }

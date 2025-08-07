@@ -23,11 +23,11 @@ class _DashboardHomeState extends State<DashboardHome>
   // Mock user data
   final String _userName = "Alex Johnson";
   final int _currentLevel = 12;
-  int _coinBalance = 2847;
+  int _motiCoinBalance = 2847;
   final double _weeklyCompletionPercentage = 78.5;
   final int _streakCount = 15;
   final int _tasksCompletedToday = 4;
-  final int _coinsEarnedThisWeek = 185;
+  final int _motiCoinsEarnedThisWeek = 185;
 
   // Achievement banner state
   Map<String, dynamic>? _currentAchievement;
@@ -226,7 +226,7 @@ class _DashboardHomeState extends State<DashboardHome>
                   child: GreetingHeaderWidget(
                     userName: _userName,
                     currentLevel: _currentLevel,
-                    coinBalance: _coinBalance,
+                    coinBalance: _motiCoinBalance, // TODO: Renommer le paramètre en motiCoinBalance
                   ),
                 ),
               ),
@@ -239,7 +239,7 @@ class _DashboardHomeState extends State<DashboardHome>
                     weeklyCompletionPercentage: _weeklyCompletionPercentage,
                     streakCount: _streakCount,
                     tasksCompletedToday: _tasksCompletedToday,
-                    coinsEarnedThisWeek: _coinsEarnedThisWeek,
+                    coinsEarnedThisWeek: _motiCoinsEarnedThisWeek, // TODO: Renommer le paramètre en motiCoinsEarnedThisWeek
                   ),
                 ),
               ),

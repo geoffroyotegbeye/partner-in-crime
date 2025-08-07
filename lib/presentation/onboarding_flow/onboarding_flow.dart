@@ -24,50 +24,45 @@ class _OnboardingFlowState extends State<OnboardingFlow>
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
-  // Mock onboarding data
+  // Données d'onboarding traduites en français avec SVG locaux
   final List<Map<String, dynamic>> _onboardingData = [
     {
-      "title": "Turn Tasks into Rewards!",
+      "title": "Transformez vos Tâches en Récompenses !",
       "description":
-          "Complete daily tasks and earn virtual coins. Every achievement brings you closer to unlocking amazing content and rewards.",
-      "imageUrl":
-          "https://images.unsplash.com/photo-1611224923853-80b023f02d71?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
+          "Complétez des tâches quotidiennes et gagnez des MotiCoins. Chaque réussite vous rapproche du déblocage de contenus et récompenses exceptionnels.",
+      "svgAsset": "assets/images/personal goals checklist-rafiki.svg",
       "showAnimation": true,
       "type": "intro"
     },
     {
-      "title": "Watch Your Virtual World Grow!",
+      "title": "Regardez Votre Monde Virtuel Grandir !",
       "description":
-          "As you complete tasks, watch your personalized virtual environment evolve. Build cities, grow islands, or expand your workspace!",
-      "imageUrl":
-          "https://images.pexels.com/photos/1647962/pexels-photo-1647962.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+          "En accomplissant vos tâches, observez votre environnement virtuel personnalisé évoluer. Construisez des villes, développez des îles, ou agrandissez votre espace de travail !",
+      "svgAsset": "assets/images/Personal goals-amico.svg",
       "showAnimation": false,
       "type": "progress"
     },
     {
-      "title": "Unlock Amazing Content!",
+      "title": "Débloquez du Contenu Exceptionnel !",
       "description":
-          "Use your earned coins to access premium ebooks, courses, coaching sessions, and exclusive podcasts from industry experts.",
-      "imageUrl":
-          "https://images.pixabay.com/photo/2016/11/29/06/15/book-1867171_1280.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+          "Utilisez vos MotiCoins pour accéder à des ebooks premium, des cours, des sessions de coaching et des podcasts exclusifs d'experts reconnus.",
+      "svgAsset": "assets/images/Team goals-rafiki.svg",
       "showAnimation": false,
       "type": "marketplace"
     },
     {
-      "title": "Track Your Success Journey",
+      "title": "Suivez Votre Parcours de Réussite",
       "description":
-          "Monitor your progress across multiple life categories with beautiful visualizations and celebrate every milestone achievement.",
-      "imageUrl":
-          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
+          "Surveillez votre progression dans plusieurs catégories de vie avec de belles visualisations et célébrez chaque étape importante de votre réussite.",
+      "svgAsset": "assets/images/personal growth-cuate.svg",
       "showAnimation": false,
       "type": "tracking"
     },
     {
-      "title": "Join the Community!",
+      "title": "Rejoignez la Communauté !",
       "description":
-          "Connect with like-minded individuals, participate in challenges, and share your achievements with accountability partners.",
-      "imageUrl":
-          "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+          "Connectez-vous avec des personnes partageant les mêmes idées, participez à des défis et partagez vos réussites avec des partenaires de responsabilité.",
+      "svgAsset": "assets/images/Shared goals-rafiki.svg",
       "showAnimation": false,
       "type": "community"
     }
@@ -153,16 +148,6 @@ class _OnboardingFlowState extends State<OnboardingFlow>
           left: 10.w,
           child: AnimatedCoinWidget(onTap: _onCoinTap),
         );
-      case "progress":
-        return Positioned(
-          bottom: 20.h,
-          left: 15.w,
-          child: ProgressBarWidget(
-            progress: 0.7,
-            label: "Health Goals",
-            color: AppTheme.lightTheme.colorScheme.secondary,
-          ),
-        );
       case "tracking":
         return Positioned(
           bottom: 22.h,
@@ -236,17 +221,44 @@ class _OnboardingFlowState extends State<OnboardingFlow>
               Positioned(
                 top: 2.h,
                 right: 4.w,
-                child: TextButton(
-                  onPressed: _skipOnboarding,
-                  style: TextButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppTheme.lightTheme.colorScheme.surface.withOpacity(0.8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.lightTheme.colorScheme.shadow.withOpacity(0.1),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    'Skip',
-                    style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                      color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
+                  child: TextButton(
+                    onPressed: _skipOnboarding,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Passer',
+                          style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
+                            color: AppTheme.lightTheme.colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        SizedBox(width: 1.w),
+                        CustomIconWidget(
+                          iconName: 'arrow_forward',
+                          color: AppTheme.lightTheme.colorScheme.primary,
+                          size: 4.w,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -267,7 +279,7 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                   return OnboardingPageWidget(
                     title: data["title"],
                     description: data["description"],
-                    imageUrl: data["imageUrl"],
+                    svgAsset: data["svgAsset"],
                     showAnimation: data["showAnimation"] ?? false,
                     onAnimationTap:
                         data["showAnimation"] == true ? _onCoinTap : null,
@@ -304,73 +316,118 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                           SizedBox(
                             width: 20.w,
                             child: _currentPage > 0
-                                ? TextButton(
-                                    onPressed: () {
-                                      HapticFeedback.lightImpact();
-                                      _pageController.previousPage(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.easeInOut,
-                                      );
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        CustomIconWidget(
-                                          iconName: 'arrow_back_ios',
-                                          color: AppTheme
-                                              .lightTheme.colorScheme.primary,
-                                          size: 4.w,
-                                        ),
-                                        Text(
-                                          'Back',
-                                          style: AppTheme
-                                              .lightTheme.textTheme.bodyMedium
-                                              ?.copyWith(
-                                            color: AppTheme
-                                                .lightTheme.colorScheme.primary,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppTheme.lightTheme.colorScheme.surface.withOpacity(0.8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppTheme.lightTheme.colorScheme.shadow.withOpacity(0.1),
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
                                         ),
                                       ],
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        HapticFeedback.lightImpact();
+                                        _pageController.previousPage(
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CustomIconWidget(
+                                            iconName: 'arrow_back_ios',
+                                            color: AppTheme
+                                                .lightTheme.colorScheme.primary,
+                                            size: 4.w,
+                                          ),
+                                          SizedBox(width: 1.w),
+                                          Text(
+                                            'Retour',
+                                            style: AppTheme
+                                                .lightTheme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                              color: AppTheme
+                                                  .lightTheme.colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.5,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 : null,
                           ),
 
                           // Next/Get Started Button
-                          ElevatedButton(
-                            onPressed: _nextPage,
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w, vertical: 1.5.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppTheme.lightTheme.colorScheme.primary,
+                                  AppTheme.lightTheme.colorScheme.primary.withOpacity(0.8),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                              elevation: 4,
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  _currentPage == _totalPages - 1
-                                      ? 'Get Started'
-                                      : 'Next',
-                                  style: AppTheme.lightTheme.textTheme.bodyLarge
-                                      ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(width: 2.w),
-                                CustomIconWidget(
-                                  iconName: _currentPage == _totalPages - 1
-                                      ? 'rocket_launch'
-                                      : 'arrow_forward_ios',
-                                  color: Colors.white,
-                                  size: 4.w,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.lightTheme.colorScheme.primary.withOpacity(0.3),
+                                  blurRadius: 15,
+                                  spreadRadius: 2,
+                                  offset: const Offset(0, 5),
                                 ),
                               ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: _nextPage,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 1.8.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    _currentPage == _totalPages - 1
+                                        ? 'Commencer'
+                                        : 'Suivant',
+                                    style: AppTheme.lightTheme.textTheme.bodyLarge
+                                        ?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  SizedBox(width: 2.w),
+                                  CustomIconWidget(
+                                    iconName: _currentPage == _totalPages - 1
+                                        ? 'rocket_launch'
+                                        : 'arrow_forward_ios',
+                                    color: Colors.white,
+                                    size: 4.w,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

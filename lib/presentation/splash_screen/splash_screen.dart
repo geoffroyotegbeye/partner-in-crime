@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/app_export.dart';
+import '../../core/app_export.dart';
+import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -139,7 +143,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _syncVirtualCoinBalance() async {
-    // Simulate syncing coin balance
+    // Simuler la synchronisation du solde de MotiCoins
     await Future.delayed(const Duration(milliseconds: 700));
   }
 
@@ -297,74 +301,241 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildAnimatedLogo() {
-    return FadeTransition(
-      opacity: _logoFadeAnimation,
-      child: ScaleTransition(
-        scale: _logoScaleAnimation,
-        child: Container(
-          width: 32.w,
-          height: 32.w,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomIconWidget(
-                iconName: 'psychology',
-                color: AppTheme.lightTheme.colorScheme.primary,
-                size: 12.w,
-              ),
-              SizedBox(height: 1.h),
-              Text(
-                'PIC',
-                style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
-                  color: AppTheme.lightTheme.colorScheme.primary,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 14.sp,
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Cercle d'animation extérieur
+        TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: const Duration(seconds: 2),
+          curve: Curves.elasticOut,
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: 0.8 + (value * 0.2),
+              child: Container(
+                width: 50.w,
+                height: 50.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.lightTheme.colorScheme.primary.withOpacity(0.2),
+                      AppTheme.lightTheme.colorScheme.tertiary.withOpacity(0.1),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
               ),
-            ],
+            );
+          },
+        ),
+        
+        // Logo principal avec animation
+        FadeTransition(
+          opacity: _logoFadeAnimation,
+          child: ScaleTransition(
+            scale: _logoScaleAnimation,
+            child: Container(
+              width: 42.w,
+              height: 42.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.lightTheme.colorScheme.primary.withOpacity(0.2),
+                    blurRadius: 20,
+                    spreadRadius: 5,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Image SVG avec animation
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    duration: const Duration(milliseconds: 1500),
+                    curve: Curves.easeOutBack,
+                    builder: (context, value, child) {
+                      return Transform.scale(
+                        scale: value,
+                        child: Padding(
+                          padding: EdgeInsets.all(2.w),
+                          child: SvgPicture.asset(
+                            'assets/images/personal goals checklist-rafiki.svg',
+                            width: 28.w,
+                            height: 28.w,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  
+                  // Texte avec animation
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    duration: const Duration(milliseconds: 1200),
+                    curve: Curves.easeOut,
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Transform.translate(
+                          offset: Offset(0, 20 * (1 - value)),
+                          child: Text(
+                            'MotiGoal',
+                            style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                              color: AppTheme.lightTheme.colorScheme.primary,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14.sp,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        
+        // Particules d'animation (petits cercles)
+        ...List.generate(5, (index) {
+          final random = index * 0.2;
+          return Positioned(
+            top: 45.h * (0.2 + random),
+            left: 45.w * (0.1 + random),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: 1.0),
+              duration: Duration(milliseconds: 1500 + (index * 300)),
+              curve: Curves.easeOutBack,
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value * 0.7,
+                  child: Transform.scale(
+                    scale: value,
+                    child: Container(
+                      width: 3.w * (1 - index * 0.1),
+                      height: 3.w * (1 - index * 0.1),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.lightTheme.colorScheme.tertiary,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }),
+      ],
     );
   }
 
   Widget _buildLoadingCoin() {
-    return RotationTransition(
-      turns: _coinRotationAnimation,
-      child: Container(
-        width: 16.w,
-        height: 16.w,
-        decoration: BoxDecoration(
-          color: AppTheme.lightTheme.colorScheme.tertiary,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.lightTheme.colorScheme.tertiary
-                  .withValues(alpha: 0.4),
-              blurRadius: 15,
-              spreadRadius: 2,
-            ),
-          ],
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Cercle extérieur avec animation de pulsation
+        TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.8, end: 1.2),
+          duration: const Duration(milliseconds: 1500),
+          curve: Curves.easeInOut,
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: Container(
+                width: 18.w,
+                height: 18.w,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppTheme.lightTheme.colorScheme.tertiary.withOpacity(0.3),
+                    width: 2,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
-        child: Center(
-          child: CustomIconWidget(
-            iconName: 'monetization_on',
-            color: Colors.white,
-            size: 8.w,
+        
+        // Cercle principal avec rotation
+        RotationTransition(
+          turns: _coinRotationAnimation,
+          child: Container(
+            width: 16.w,
+            height: 16.w,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.lightTheme.colorScheme.tertiary,
+                  AppTheme.lightTheme.colorScheme.tertiary.withOpacity(0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.lightTheme.colorScheme.tertiary
+                      .withOpacity(0.4),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Center(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.7, end: 1.0),
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.easeInOut,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: CustomIconWidget(
+                      iconName: 'monetization_on', // Icône pour MotiCoins
+                      color: Colors.white,
+                      size: 8.w,
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ),
-      ),
+        
+        // Particules d'animation autour de la pièce
+        ...List.generate(3, (index) {
+          final angle = index * (2 * 3.14159 / 3); // Répartir en cercle
+          return Positioned(
+            top: 8.w * sin(angle),
+            left: 8.w * cos(angle),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: 1.0),
+              duration: Duration(milliseconds: 1000 + (index * 200)),
+              curve: Curves.easeOutBack,
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value * 0.6,
+                  child: Container(
+                    width: 2.w,
+                    height: 2.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }),
+      ],
     );
   }
 
@@ -373,8 +544,8 @@ class _SplashScreenState extends State<SplashScreen>
       children: [
         Text(
           _hasError
-              ? 'Connection Failed'
-              : (_isInitialized ? 'Ready to Go!' : 'Loading...'),
+              ? 'Connexion Échouée'
+              : (_isInitialized ? 'Prêt à Démarrer !' : 'Chargement...'),
           style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -394,7 +565,7 @@ class _SplashScreenState extends State<SplashScreen>
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: Text(
-              'Please check your internet connection',
+              'Veuillez vérifier votre connexion internet',
               textAlign: TextAlign.center,
               style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
                 color: Colors.white.withValues(alpha: 0.8),
@@ -407,7 +578,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Widget _buildVersionInfo() {
     return Text(
-      'Partner in Crime v1.0.0',
+      'MotiGoal v1.0.0 - Votre Compagnon de Motivation',
       style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
         color: Colors.white.withValues(alpha: 0.7),
         fontSize: 10.sp,

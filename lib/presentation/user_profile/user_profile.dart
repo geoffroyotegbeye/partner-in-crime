@@ -30,7 +30,7 @@ class _UserProfileState extends State<UserProfile>
         'https://images.unsplash.com/photo-1494790108755-2616b612b376?w=150',
     'level': 12,
     'currentLevelProgress': 0.75,
-    'totalCoins': 2847,
+    'totalMotiCoins': 2847,
     'joinDate': '2024-01-15',
     'location': 'San Francisco, CA',
     'bio':

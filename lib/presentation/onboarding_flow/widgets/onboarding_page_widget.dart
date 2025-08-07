@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/app_export.dart';
+import '../../../theme/app_theme.dart';
 
 class OnboardingPageWidget extends StatelessWidget {
   final String title;
   final String description;
-  final String imageUrl;
+  final String svgAsset;
   final bool showAnimation;
   final VoidCallback? onAnimationTap;
 
@@ -14,7 +16,7 @@ class OnboardingPageWidget extends StatelessWidget {
     Key? key,
     required this.title,
     required this.description,
-    required this.imageUrl,
+    required this.svgAsset,
     this.showAnimation = false,
     this.onAnimationTap,
   }) : super(key: key);
@@ -28,31 +30,43 @@ class OnboardingPageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Illustration Container
+          // Illustration Container avec SVG
           Container(
-            width: 80.w,
-            height: 40.h,
+            width: 85.w,
+            height: 42.h,
             margin: EdgeInsets.only(bottom: 4.h),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(25),
               color: AppTheme.lightTheme.colorScheme.surface,
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.lightTheme.colorScheme.surface,
+                  AppTheme.lightTheme.colorScheme.surface.withOpacity(0.9),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.lightTheme.colorScheme.shadow,
+                  color: AppTheme.lightTheme.colorScheme.shadow.withOpacity(0.15),
                   blurRadius: 20,
+                  spreadRadius: 5,
                   offset: const Offset(0, 10),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(25),
               child: Stack(
                 children: [
-                  CustomImageWidget(
-                    imageUrl: imageUrl,
-                    width: 80.w,
-                    height: 40.h,
-                    fit: BoxFit.cover,
+                  Padding(
+                    padding: EdgeInsets.all(3.w),
+                    child: SvgPicture.asset(
+                      svgAsset,
+                      width: 80.w,
+                      height: 40.h,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   if (showAnimation)
                     Positioned.fill(

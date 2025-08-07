@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.partner_in_crime.app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "25.1.8937393" // Version spécifique du NDK
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
