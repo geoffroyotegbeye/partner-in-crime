@@ -68,50 +68,7 @@ class OnboardingPageWidget extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  if (showAnimation)
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: onAnimationTap,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppTheme.lightTheme.colorScheme.primary
-                                    .withValues(alpha: 0.3),
-                                AppTheme.lightTheme.colorScheme.tertiary
-                                    .withValues(alpha: 0.3),
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Container(
-                              width: 15.w,
-                              height: 15.w,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppTheme.lightTheme.colorScheme.tertiary,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppTheme
-                                        .lightTheme.colorScheme.tertiary
-                                        .withValues(alpha: 0.4),
-                                    blurRadius: 15,
-                                    spreadRadius: 5,
-                                  ),
-                                ],
-                              ),
-                              child: CustomIconWidget(
-                                iconName: 'play_arrow',
-                                color: Colors.white,
-                                size: 8.w,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  // Icône play supprimée comme demandé
                 ],
               ),
             ),

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../registration_screen/registration_screen.dart';
 import './widgets/animated_coin_widget.dart';
 import './widgets/onboarding_page_widget.dart';
 import './widgets/page_indicator_widget.dart';
-import './widgets/progress_bar_widget.dart';
 
 class OnboardingFlow extends StatefulWidget {
   const OnboardingFlow({Key? key}) : super(key: key);
@@ -109,12 +109,44 @@ class _OnboardingFlowState extends State<OnboardingFlow>
   }
 
   void _skipOnboarding() {
+    // Afficher un feedback visuel pour confirmer que le bouton a été pressé
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Navigation vers l\'inscription...'),
+        duration: Duration(milliseconds: 500),
+      ),
+    );
+    
+    // Ajouter un feedback haptique
     HapticFeedback.mediumImpact();
-    _navigateToGoalSetup();
+    
+    // Navigation vers l'écran d'inscription avant la configuration des objectifs
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const RegistrationScreen(),
+      ),
+    );
   }
 
   void _navigateToGoalSetup() {
-    Navigator.pushReplacementNamed(context, '/goal-setup-wizard');
+    // Utiliser exactement la même approche que _skipOnboarding pour cohérence
+    // Feedback visuel
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Navigation vers l\'inscription...'),
+        duration: Duration(milliseconds: 500),
+      ),
+    );
+    
+    // Feedback haptique
+    HapticFeedback.mediumImpact();
+    
+    // Navigation vers l'écran d'inscription avant la configuration des objectifs
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const RegistrationScreen(),
+      ),
+    );
   }
 
   void _onCoinTap() {
@@ -144,13 +176,13 @@ class _OnboardingFlowState extends State<OnboardingFlow>
     switch (currentData["type"]) {
       case "intro":
         return Positioned(
-          bottom: 25.h,
-          left: 10.w,
+          top: 16.h, // Repositionné plus bas
+          right: 10.w, // Repositionné à droite au lieu de gauche
           child: AnimatedCoinWidget(onTap: _onCoinTap),
         );
       case "tracking":
         return Positioned(
-          bottom: 22.h,
+          top: 12.h,
           right: 10.w,
           child: Container(
             padding: EdgeInsets.all(3.w),
@@ -175,13 +207,13 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                 ),
                 SizedBox(height: 1.h),
                 Text(
-                  'Level 5',
+                  'Niveau 5',
                   style: AppTheme.lightTheme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  'Achiever',
+                  'Completé',
                   style: AppTheme.lightTheme.textTheme.bodySmall,
                 ),
               ],
@@ -314,7 +346,7 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                         children: [
                           // Previous Button (invisible for first page)
                           SizedBox(
-                            width: 20.w,
+                            width: 25.w, // Augmenté de 20.w à 25.w pour plus d'espace
                             child: _currentPage > 0
                                 ? Container(
                                     decoration: BoxDecoration(
@@ -338,30 +370,34 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                                         );
                                       },
                                       style: TextButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h), // Réduit de 3.w à 2.w
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20),
                                         ),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center, // Centrer le contenu
                                         children: [
                                           CustomIconWidget(
                                             iconName: 'arrow_back_ios',
                                             color: AppTheme
                                                 .lightTheme.colorScheme.primary,
-                                            size: 4.w,
+                                            size: 3.5.w, // Légèrement réduit de 4.w à 3.5.w
                                           ),
-                                          SizedBox(width: 1.w),
-                                          Text(
-                                            'Retour',
-                                            style: AppTheme
-                                                .lightTheme.textTheme.bodyMedium
-                                                ?.copyWith(
-                                              color: AppTheme
-                                                  .lightTheme.colorScheme.primary,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 0.5,
+                                          SizedBox(width: 0.5.w), // Réduit de 1.w à 0.5.w
+                                          Flexible( // Ajout de Flexible pour permettre au texte de s'adapter
+                                            child: Text(
+                                              'Retour',
+                                              overflow: TextOverflow.ellipsis, // Ajoute une ellipse si le texte est trop long
+                                              style: AppTheme
+                                                  .lightTheme.textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                color: AppTheme
+                                                    .lightTheme.colorScheme.primary,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.2, // Réduit de 0.5 à 0.2
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -374,7 +410,7 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                           // Next/Get Started Button
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(20), // Réduit de 25 à 20 pour correspondre au bouton Retour
                               gradient: LinearGradient(
                                 colors: [
                                   AppTheme.lightTheme.colorScheme.primary,
@@ -385,10 +421,10 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.lightTheme.colorScheme.primary.withOpacity(0.3),
-                                  blurRadius: 15,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 5),
+                                  color: AppTheme.lightTheme.colorScheme.primary.withOpacity(0.2), // Réduit de 0.3 à 0.2
+                                  blurRadius: 10, // Réduit de 15 à 10
+                                  spreadRadius: 1, // Réduit de 2 à 1
+                                  offset: const Offset(0, 3), // Réduit de 5 à 3
                                 ),
                               ],
                             ),
@@ -398,33 +434,37 @@ class _OnboardingFlowState extends State<OnboardingFlow>
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 1.8.h),
+                                    horizontal: 5.w, vertical: 1.h), // Réduit pour correspondre au bouton Retour
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
+                                  borderRadius: BorderRadius.circular(20), // Réduit de 25 à 20 pour correspondre au bouton Retour
                                 ),
                                 elevation: 0,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center, // Centrer le contenu
                                 children: [
-                                  Text(
-                                    _currentPage == _totalPages - 1
-                                        ? 'Commencer'
-                                        : 'Suivant',
-                                    style: AppTheme.lightTheme.textTheme.bodyLarge
-                                        ?.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
+                                  Flexible( // Ajout de Flexible pour permettre au texte de s'adapter
+                                    child: Text(
+                                      _currentPage == _totalPages - 1
+                                          ? 'Commencer'
+                                          : 'Suivant',
+                                      overflow: TextOverflow.ellipsis, // Ajoute une ellipse si le texte est trop long
+                                      style: AppTheme.lightTheme.textTheme.bodyLarge
+                                          ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.2, // Réduit de 0.5 à 0.3
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 2.w),
+                                  SizedBox(width: 1.5.w), // Réduit de 2.w à 1.5.w
                                   CustomIconWidget(
                                     iconName: _currentPage == _totalPages - 1
                                         ? 'rocket_launch'
                                         : 'arrow_forward_ios',
                                     color: Colors.white,
-                                    size: 4.w,
+                                    size: 3.5.w, // Légèrement réduit de 4.w à 3.5.w
                                   ),
                                 ],
                               ),

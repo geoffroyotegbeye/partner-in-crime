@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import './widgets/progress_indicator_widget.dart';
+
 import './widgets/registration_form_widget.dart';
 import './widgets/success_animation_widget.dart';
 import './widgets/welcome_header_widget.dart';
@@ -175,11 +175,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ),
 
-                // Progress Indicator
-                const ProgressIndicatorWidget(
-                  currentStep: 1,
-                  totalSteps: 3,
-                ),
+                // Espace en haut
+                SizedBox(height: 1.h),
 
                 // Scrollable Content
                 Expanded(
