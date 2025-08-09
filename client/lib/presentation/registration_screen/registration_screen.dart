@@ -162,7 +162,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          'Create Account',
+                          'Créer un compte',
                           style: AppTheme.lightTheme.textTheme.titleMedium
                               ?.copyWith(
                             fontWeight: FontWeight.w600,
@@ -184,22 +184,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     physics: const BouncingScrollPhysics(),
                     child: Column(
                       children: [
+                        // Ajout d'un espace flexible pour centrer verticalement
+                        SizedBox(height: 5.h),
                         // Welcome Header
                         const WelcomeHeaderWidget(),
 
                         // Registration Form
-                        RegistrationFormWidget(
-                          formKey: _formKey,
-                          fullNameController: _fullNameController,
-                          emailController: _emailController,
-                          passwordController: _passwordController,
-                          confirmPasswordController: _confirmPasswordController,
-                          isTermsAccepted: _isTermsAccepted,
-                          onTermsChanged: (value) =>
-                              setState(() => _isTermsAccepted = value),
+                        Container(
+                          // Centrer horizontalement avec des marges
+                          margin: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: RegistrationFormWidget(
+                            formKey: _formKey,
+                            fullNameController: _fullNameController,
+                            emailController: _emailController,
+                            passwordController: _passwordController,
+                            confirmPasswordController: _confirmPasswordController,
+                            isTermsAccepted: _isTermsAccepted,
+                            onTermsChanged: (value) =>
+                                setState(() => _isTermsAccepted = value),
+                          ),
                         ),
 
                         SizedBox(height: 4.h),
+                        
+                        // Ajout d'un espace flexible en bas pour équilibrer le centrage
+                        SizedBox(height: 8.h),
 
                         // Create Account Button
                         Container(
@@ -247,7 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Create Account',
+                                        'Créer un compte',
                                         style: AppTheme
                                             .lightTheme.textTheme.titleMedium
                                             ?.copyWith(

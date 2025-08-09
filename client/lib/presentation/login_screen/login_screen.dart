@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
   bool _showSuccessAnimation = false;
+  bool _isPasswordVisible = false;
 
   // Identifiants de test
   final Map<String, String> _mockCredentials = {
@@ -212,6 +213,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     physics: const BouncingScrollPhysics(),
                     child: Column(
                       children: [
+                        // Ajout d'un espace flexible pour centrer verticalement
+                        SizedBox(height: 5.h),
                         SizedBox(height: 3.h),
                         
                         // En-tête de bienvenue
@@ -242,10 +245,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
+                        // Ajout d'un espace flexible en bas pour équilibrer le centrage
+                        SizedBox(height: 10.h),
+
                         // Formulaire de connexion
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(horizontal: 6.w),
+                          // Centrer horizontalement avec des marges
+                          margin: EdgeInsets.symmetric(horizontal: 4.w),
                           child: Form(
                             key: _formKey,
                             child: Column(
@@ -306,71 +314,60 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: 3.h),
 
                                 // Champ Mot de passe
-                                StatefulBuilder(
-                                  builder: (context, setState) {
-                                    bool isPasswordVisible = false;
-                                    return TextFormField(
-                                      controller: _passwordController,
-                                      obscureText: !isPasswordVisible,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Veuillez entrer votre mot de passe';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        labelText: 'Mot de passe',
-                                        hintText: 'Entrez votre mot de passe',
-                                        prefixIcon: Padding(
-                                          padding: EdgeInsets.all(3.w),
-                                          child: Icon(
-                                            Icons.lock,
-                                            color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                                            size: 20,
-                                          ),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(
-                                            isPasswordVisible
-                                                ? Icons.visibility_off
-                                                : Icons.visibility,
-                                            color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              isPasswordVisible = !isPasswordVisible;
-                                            });
-                                          },
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: BorderSide(
-                                            color: AppTheme.lightTheme.colorScheme.outline,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: BorderSide(
-                                            color: AppTheme.lightTheme.colorScheme.outline,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: BorderSide(
-                                            color: AppTheme.lightTheme.colorScheme.primary,
-                                            width: 2,
-                                          ),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: BorderSide(
-                                            color: AppTheme.lightTheme.colorScheme.error,
-                                          ),
-                                        ),
-                                      ),
-                                      textInputAction: TextInputAction.done,
-                                    );
+                                TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: !_isPasswordVisible,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Veuillez entrer votre mot de passe';
+                                    }
+                                    return null;
                                   },
+                                  decoration: InputDecoration(
+                                    labelText: 'Mot de passe',
+                                    hintText: 'Entrez votre mot de passe',
+                                    prefixIcon: Padding(
+                                      padding: EdgeInsets.all(3.w),
+                                      child: Icon(
+                                        Icons.lock,
+                                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _isPasswordVisible
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isPasswordVisible = !_isPasswordVisible;
+                                        });
+                                      },
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: AppTheme.lightTheme.colorScheme.outline,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: AppTheme.lightTheme.colorScheme.primary,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: AppTheme.lightTheme.colorScheme.error,
+                                      ),
+                                    ),
+                                  ),
+                                  textInputAction: TextInputAction.done,
                                 ),
                                 SizedBox(height: 1.h),
 

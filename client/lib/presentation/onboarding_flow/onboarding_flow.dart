@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../services/user_preferences_service.dart';
 import '../registration_screen/registration_screen.dart';
 import './widgets/animated_coin_widget.dart';
 import './widgets/onboarding_page_widget.dart';
@@ -120,33 +121,139 @@ class _OnboardingFlowState extends State<OnboardingFlow>
     // Ajouter un feedback haptique
     HapticFeedback.mediumImpact();
     
-    // Navigation vers l'écran d'inscription avant la configuration des objectifs
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const RegistrationScreen(),
+    // Afficher une boîte de dialogue pour choisir entre inscription, connexion ou invité
+    _showAuthOptionsDialog();
+  }
+
+  void _showAuthOptionsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(4.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Rejoignez MotiGoal',
+                  style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.lightTheme.colorScheme.primary,
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  'Choisissez comment vous souhaitez continuer',
+                  textAlign: TextAlign.center,
+                  style: AppTheme.lightTheme.textTheme.bodyMedium,
+                ),
+                SizedBox(height: 3.h),
+                _buildAuthButton(
+                  'Créer un compte',
+                  Icons.person_add,
+                  AppTheme.lightTheme.colorScheme.primary,
+                  () => _navigateToRegistration(),
+                ),
+                SizedBox(height: 1.5.h),
+                _buildAuthButton(
+                  'Se connecter',
+                  Icons.login,
+                  AppTheme.lightTheme.colorScheme.secondary,
+                  () => _navigateToLogin(),
+                ),
+                SizedBox(height: 1.5.h),
+                _buildAuthButton(
+                  'Continuer en invité',
+                  Icons.public,
+                  Colors.grey.shade700,
+                  () => _continueAsGuest(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAuthButton(String text, IconData icon, Color color, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 1.5.h),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color),
+            SizedBox(width: 3.w),
+            Text(
+              text,
+              style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
+                color: color,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
+  void _navigateToRegistration() {
+    Navigator.pop(context); // Fermer la boîte de dialogue
+    Navigator.pushReplacementNamed(context, AppRoutes.registration);
+  }
+
+  void _navigateToLogin() {
+    Navigator.pop(context); // Fermer la boîte de dialogue
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
+  }
+
+  Future<void> _continueAsGuest() async {
+    Navigator.pop(context); // Fermer la boîte de dialogue
+    
+    // Enregistrer que l'utilisateur est en mode invité
+    await UserPreferencesService.setUserName('Invité');
+    await UserPreferencesService.setMotiCoins(50); // Donner quelques coins de départ
+    
+    // Aller directement à la configuration des objectifs
+    Navigator.pushReplacementNamed(context, AppRoutes.goalSetupWizard);
+  }
+
   void _navigateToGoalSetup() {
-    // Utiliser exactement la même approche que _skipOnboarding pour cohérence
-    // Feedback visuel
+    // Ajouter un feedback haptique pour confirmer l'action
+    HapticFeedback.heavyImpact();
+    
+    // Afficher un message de confirmation
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Navigation vers l\'inscription...'),
-        duration: Duration(milliseconds: 500),
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.celebration,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10),
+            Text('Prêt à commencer votre parcours !'),
+          ],
+        ),
+        backgroundColor: AppTheme.lightTheme.colorScheme.secondary,
+        duration: const Duration(milliseconds: 1500),
       ),
     );
     
-    // Feedback haptique
-    HapticFeedback.mediumImpact();
-    
-    // Navigation vers l'écran d'inscription avant la configuration des objectifs
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const RegistrationScreen(),
-      ),
-    );
+    // Afficher les options d'authentification
+    _showAuthOptionsDialog();
   }
 
   void _onCoinTap() {

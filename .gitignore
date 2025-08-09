@@ -1,47 +1,103 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-pubspec.lock
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+# Environnements virtuels
+venv/
+ENV/
+env/
+.env
+.venv
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter/Dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
-/web/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.lock
+*.iml
 
-# Symbolication related
-app.*.symbols
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# Obfuscation related
-app.*.map.json
+# IDE - IntelliJ/Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+out/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Base de données
+*.sqlite3
+*.db
+
+# Fichiers secrets et configuration
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+secrets.json
+google-services.json
+firebase_options.dart
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.swp
+*.swo
+
+# Fichiers spécifiques à MongoDB
+data/db/
+mongod.lock

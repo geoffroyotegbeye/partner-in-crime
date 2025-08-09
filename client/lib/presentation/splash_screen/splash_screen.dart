@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../services/user_preferences_service.dart';
 import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -152,28 +153,47 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
-  void _navigateToNextScreen() {
-    // Mock navigation logic based on user status
-    final bool isAuthenticated = _mockIsAuthenticated();
-    final bool isNewUser = _mockIsNewUser();
-
-    if (isAuthenticated) {
-      Navigator.pushReplacementNamed(context, '/dashboard-home');
-    } else if (isNewUser) {
-      Navigator.pushReplacementNamed(context, '/onboarding-flow');
+  Future<void> _navigateToNextScreen() async {
+    // Vérifier si c'est la première ouverture de l'application
+    final isFirstLaunch = await UserPreferencesService.isFirstLaunch();
+    final isAuthenticated = await _checkAuthentication();
+    final isProfileComplete = await UserPreferencesService.isProfileComplete();
+    final hasAppBeenUpdated = await UserPreferencesService.hasAppBeenUpdated('1.0.0'); // Version actuelle de l'app
+    
+    // Définir la dernière date de visite
+    await UserPreferencesService.setLastVisitDate();
+    
+    if (isFirstLaunch) {
+      // Première ouverture : marquer l'app comme ouverte et aller à l'onboarding
+      await UserPreferencesService.setAppOpened();
+      Navigator.pushReplacementNamed(context, AppRoutes.onboardingFlow);
+    } else if (hasAppBeenUpdated) {
+      // L'app a été mise à jour : afficher un mini-onboarding des nouveautés
+      // Pour l'instant, on redirige vers l'onboarding normal
+      // TODO: Implémenter un mini-onboarding des nouveautés
+      Navigator.pushReplacementNamed(context, AppRoutes.onboardingFlow);
+    } else if (!isProfileComplete && isAuthenticated) {
+      // Profil incomplet : proposer de le compléter
+      Navigator.pushReplacementNamed(context, AppRoutes.goalSetupWizard);
+    } else if (isAuthenticated) {
+      // Utilisateur déjà authentifié : aller au tableau de bord ou à la dernière page visitée
+      final lastVisitedScreen = await UserPreferencesService.getLastVisitedScreen();
+      if (lastVisitedScreen.isNotEmpty && lastVisitedScreen != AppRoutes.splash) {
+        Navigator.pushReplacementNamed(context, lastVisitedScreen);
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.dashboardHome);
+      }
     } else {
-      Navigator.pushReplacementNamed(context, '/login-screen');
+      // Utilisateur non authentifié : aller à la connexion
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     }
   }
 
-  bool _mockIsAuthenticated() {
-    // Mock authentication status - in real app, check stored tokens
-    return false;
-  }
-
-  bool _mockIsNewUser() {
-    // Mock new user status - in real app, check if user has completed onboarding
-    return true;
+  Future<bool> _checkAuthentication() async {
+    // Dans une vraie application, vérifier l'authentification avec Firebase, API, etc.
+    // Pour l'exemple, on utilise une valeur stockée localement
+    final userEmail = await UserPreferencesService.getUserEmail();
+    return userEmail.isNotEmpty;
   }
 
   void _showRetryOption() {

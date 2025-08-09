@@ -27,7 +27,7 @@ class WelcomeHeaderWidget extends StatelessWidget {
           ),
           SizedBox(height: 2.h),
           Text(
-            'Start Your Growth Journey!',
+            'Commencez votre parcours de croissance !',
             style: AppTheme.lightTheme.textTheme.headlineSmall?.copyWith(
               color: AppTheme.lightTheme.colorScheme.onSurface,
               fontWeight: FontWeight.w700,
@@ -36,7 +36,7 @@ class WelcomeHeaderWidget extends StatelessWidget {
           ),
           SizedBox(height: 1.h),
           Text(
-            'Join thousands of achievers transforming their lives through gamified goal completion',
+            'Rejoignez des milliers de personnes qui transforment leur vie grâce à la réalisation d\'objectifs gamifiés',
             style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
               color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
             ),

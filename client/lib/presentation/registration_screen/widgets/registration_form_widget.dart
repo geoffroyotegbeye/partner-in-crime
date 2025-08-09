@@ -39,11 +39,11 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
   String? _validateFullName(String? value) {
     if (value == null || value.trim().isEmpty) {
       setState(() => _isFullNameValid = false);
-      return 'Full name is required';
+      return 'Le nom complet est requis';
     }
     if (value.trim().length < 2) {
       setState(() => _isFullNameValid = false);
-      return 'Name must be at least 2 characters';
+      return 'Le nom doit contenir au moins 2 caractères';
     }
     setState(() => _isFullNameValid = true);
     return null;
@@ -52,12 +52,12 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
   String? _validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       setState(() => _isEmailValid = false);
-      return 'Email is required';
+      return 'L\'email est requis';
     }
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value.trim())) {
       setState(() => _isEmailValid = false);
-      return 'Please enter a valid email address';
+      return 'Veuillez entrer une adresse email valide';
     }
     setState(() => _isEmailValid = true);
     return null;
@@ -66,11 +66,11 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       setState(() => _isPasswordValid = false);
-      return 'Password is required';
+      return 'Le mot de passe est requis';
     }
     if (value.length < 8) {
       setState(() => _isPasswordValid = false);
-      return 'Password must be at least 8 characters';
+      return 'Le mot de passe doit contenir au moins 8 caractères';
     }
     setState(() => _isPasswordValid = true);
     return null;
@@ -79,11 +79,11 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
       setState(() => _isConfirmPasswordValid = false);
-      return 'Please confirm your password';
+      return 'Veuillez confirmer votre mot de passe';
     }
     if (value != widget.passwordController.text) {
       setState(() => _isConfirmPasswordValid = false);
-      return 'Passwords do not match';
+      return 'Les mots de passe ne correspondent pas';
     }
     setState(() => _isConfirmPasswordValid = true);
     return null;
@@ -104,8 +104,8 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
               validator: _validateFullName,
               onChanged: (value) => _validateFullName(value),
               decoration: InputDecoration(
-                labelText: 'Full Name',
-                hintText: 'Enter your full name',
+                labelText: 'Nom complet',
+                hintText: 'Entrez votre nom complet',
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(3.w),
                   child: CustomIconWidget(
@@ -167,8 +167,8 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
               onChanged: (value) => _validateEmail(value),
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'Email Address',
-                hintText: 'Enter your email address',
+                labelText: 'Email',
+                hintText: 'Entrez votre adresse email',
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(3.w),
                   child: CustomIconWidget(
@@ -233,8 +233,8 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
               },
               obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Create a strong password',
+                labelText: 'Mot de passe',
+                hintText: 'Créez un mot de passe fort',
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(3.w),
                   child: CustomIconWidget(
@@ -302,8 +302,8 @@ class _RegistrationFormWidgetState extends State<RegistrationFormWidget> {
               onChanged: (value) => _validateConfirmPassword(value),
               obscureText: !_isConfirmPasswordVisible,
               decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: 'Re-enter your password',
+                labelText: 'Confirmer le mot de passe',
+                hintText: 'Re-saisissez votre mot de passe',
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(3.w),
                   child: CustomIconWidget(
